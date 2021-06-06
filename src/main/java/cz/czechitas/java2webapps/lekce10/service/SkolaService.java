@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SkolaService {
@@ -29,23 +28,16 @@ public class SkolaService {
         this.ucitelRepository = ucitelRepository;
     }
 
-public List<Trida> vratSeznamTrid() {
+    public List<Trida> vratSeznamTrid() {
         return tridaRepository.vratSeznamTrid();
-//        return tridaRepository.findAllOrderByNazevDesc();
-}
+    }
 
-//public Trida vratDetailTridy(Short id) {
-//        return tridaRepository.vratDetailTridy(id);
-//}
-public Trida vratDetailTridy(Short id) {
+    public Trida vratDetailTridy(Short id) {
         return tridaRepository.getOne(id);
-}
+    }
 
-/**
- * Metoda vracející informace o studentovi
- */
-public Student vratDetailStudenta(Integer id) {
-    return studentRepository.getOne(id);
-}
+    public Student vratDetailStudenta(Integer id) {
+        return studentRepository.getOne(id);
+    }
 
 }

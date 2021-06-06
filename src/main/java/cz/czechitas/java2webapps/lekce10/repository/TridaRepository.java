@@ -8,21 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TridaRepository  extends JpaRepository<Trida, Short> {
+public interface TridaRepository extends JpaRepository<Trida, Short> {
 
     /**
      * TODO: Proč nefunguje List<Trida> findAllOrderByNazevAsc(); ?
-     * Metoda vracíjící seznam tříd seřazený podle názvu
+     * Metoda vracející seznam tříd seřazený podle názvu
      */
 
     @Query("SELECT t FROM Trida t ORDER BY t.nazev ASC")
-List<Trida> vratSeznamTrid();
-
-    /**
-     * Metoda vracející detail o třídě, tj. název třídy, jméno a příjmení třídního učitele a seznam studentů ve třídě,
-     * seřazený obecedně podle příjmení a jména studenta
-     */
-//    @Query("SELECT t FROM Trida t JOIN t.tridniUcitel u WHERE t.id = ?1")
-//    Trida vratDetailTridy(Short id);
+    List<Trida> vratSeznamTrid();
 
 }
