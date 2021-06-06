@@ -7,7 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 /**
+ * Entita s údaji o učiteli.
  */
+
 @Entity
 public class Ucitel {
   @Id
@@ -17,7 +19,13 @@ public class Ucitel {
   private String jmeno;
   private String prijmeni;
 
-  @OneToOne(mappedBy = "tridniUcitel")
+  /**
+   * @OneToOne. Další parametr v mappedBy je optional, defaultně nastavený na true.
+   * parametr optional = true znamená, že vazba je nepovinná (tj. učitel nemusí mít žádnou třídu
+   * parametr optional = false znanemá, že vazba je povinná
+   * v anotaci @OneToOne řeknu, která property ve druhé třídě vyjadřuje vazbu
+   */
+  @OneToOne(mappedBy = "tridniUcitel", optional = true)
   private Trida trida;
 
   public Integer getId() {

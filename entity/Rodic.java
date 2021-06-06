@@ -27,6 +27,18 @@ public class Rodic {
   @Column(nullable = false, length = 100)
   private String prijmeni;
 
+
+  /**
+   * Zjistit, proč zde nejsou fieldy a property pro sloupce email a telefon, které jsou v tabulce
+   * Je to proto, že složka data s entitami je navíc. Není ve složce main.
+   */
+
+  /**
+   * Jeden rodič může mít ve škole víc studentů a současně může mít jeden student víc rodičů, proto je to list,
+   * tj. List<Student> deti.
+   * Atribut mappedBy říká, která property na druhé straně, tj. v entitě Student, reprezentuje vazbu.
+   * @OrderBy - list deti chci seřadit podle příjmení a jména
+   */
   @ManyToMany(mappedBy = "rodice")
   @OrderBy("prijmeni, krestniJmeno")
   private List<Student> deti;

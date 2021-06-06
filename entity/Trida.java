@@ -26,13 +26,25 @@ public class Trida {
   @Column(nullable = false, unique = true, length = 4)
   private String nazev;
 
+  /**
+   * Jedna třída má víc studentů, proto je zde anotace @OneToMany a musí tam být list studentů (tj. List<Student>
+   * mappedBy odkazuje na property v protistraně (tj. property v entitě student).
+   * Anotace @OrderBy říká, jakým způsobem chci seřadit studenty, když je budu dostávat do seznamu List<Student> studenti
+   */
   @NotEmpty
   @OneToMany(mappedBy = "trida")
   @OrderBy("prijmeni, krestniJmeno")
   private List<Student> studenti;
 
+  /**
+   * parametr optional = false, znamežá, že třída musí mít povinně třídního učitele
+   * Anotace @JoinColum říká, že sloupeček, který odkazuje na tabulku Ucitel se jmenuje "tridni_ucitel_id"
+   * Property/field se může jmenovat jinak než sloupec v tabulce (viz field tridniUcitel)
+   */
+
   @NotNull
-  @OneToOne(mappedBy = "trida", optional = false)
+  @OneToOne(optional = false)
+  @JoinColumn(name = "tridni_ucitel_id")
   private Ucitel tridniUcitel;
 
   public Short getId() {

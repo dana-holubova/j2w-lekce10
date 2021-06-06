@@ -22,9 +22,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Třída pro testování přístupu do databáze.
+ * Nad třídu se dá anotace @SprignBootTest, která říká, že je to test, ve kterém bude fungovat SpringBoot, tj. budou
+ * fungovat různé anotace (např. @Autowired).
  */
 @SpringBootTest
 public class DatabaseTest {
+  /**
+   * Logger. Samostatná knihovna pro logování, tj. výpis pomocných informací z aplikace. Spring to integruje do naší
+   * aplikace.
+   */
   private final Logger logger = LoggerFactory.getLogger(DatabaseTest.class);
 
   private final RodicRepository rodicRepository;
@@ -32,12 +38,58 @@ public class DatabaseTest {
   private final TridaRepository tridaRepository;
   private final UcitelRepository ucitelRepository;
 
+  /**
+   * Konstruktor
+   * Do parametrů se dají repository, aby se dalo dotazovat do databáze.
+   */
   @Autowired
-  public DatabaseTest(RodicRepository rodicRepository, StudentRepository studentRepository, TridaRepository tridaRepository, UcitelRepository ucitelRepository) {
+  public DatabaseTest(RodicRepository rodicRepository, StudentRepository studentRepository, TridaRepository tridaRepository,
+                      UcitelRepository ucitelRepository) {
     this.rodicRepository = rodicRepository;
     this.studentRepository = studentRepository;
     this.tridaRepository = tridaRepository;
     this.ucitelRepository = ucitelRepository;
+  }
+
+  /**
+   * Do testu píšu jednotlivé metody. Každá metoda je jeden test.
+   * Anotace @Test říká, je tato metoda je test. Pochází k z knihovny junit.
+   * V rámci testu se volají statické metody assert (např. assertAll, assertEquals), které jsou z knihovny junit.
+   * Tyto metody říkají v parametru expected: „očekávám, že výsledek bude tento:“, druhým parametrem je můj kód.
+   * Vypsala jsem si studenta číslo 1. Nemusela jsem kvůli tomu vytvářet controller ani template.
+   * Test nic netestuje (nejsou tam žádné asserty), jen vypisuje hodnoty.
+   * Anotace @Transactional. U anotací @OneToOne, @OneToMany, @ManyToMany je property fetch, která je lazy nebo eager.
+   * Při lazy se data donačtou, až je potřeba. Abych mohla data donačíst, tak musím být k databázi pořád připojená.
+   * V testu se standardně databáze zavolá a připojení se ukončí. Až bych chtěla donačíst data, tak by to nešlo, protože
+   * už tam není připojení k databázi. Anotace @Transactional zařídí to, že dokud jsem v metodě, tak jsou pořád připojená
+   * k databázi.
+   */
+  @Test
+  @Transactional
+  void mujTest() {
+    Student student = studentRepository.getOne(1);
+/**
+ * Výpis do konzole. Není vhodný. Lepší je použít logger, jt. System.out.println("student:" + student);
+ *  logger.error() - na logování chyb v aplikaci
+ *  logger.warn() - varování
+ *  logger.info() - běžné informační zprávy o běhu aplikace
+ *  logger.debug() - pomocné výpisy, které se používají při vývoji
+ *  Když aplikace běží, tak se určuje, na jaké úrovní se má loggovat. Když je to na produkci, tak se např. loggují
+ *  jen error zprávy a warningy, při vývoji mne mohou zajímat spíš debugg zprávy
+ * debug. První parametr: text, který se vypíše, druhý parametr - proměnná, která se vypíše
+ * Složené závorky {} označují, že se tam něco doplní. Doplní se tam další parametr metody. Parametrů může být i víc.
+ * Je to podobné jako metoda String.format()
+ * Zpráva se po spuštění testu vypíše do konzole. Je tam uveden 1) čas (na serveru by bylo i datum), 2) úroveň logování
+ * (např. DEBUG); 3) zkrácený zápis třídy, odkud zpráva pochází (např. c.c.j.lekce10.DatabaseTest:86; číslo na konci je
+ * číslo řádku), 4) vlastní obsah zprávy
+ * Vzhled řádku se dá nakonfigurovat.
+ * Dívám se do databáze, jestli výpis odpovídá.
+ */
+    logger.debug("Našel jsem studenta: {}", student);
+    logger.debug("Chodí do třídy: {}", student.getTrida());
+    for (Rodic rodic : student.getRodice()) {
+      logger.debug("Rodič: {}", rodic);
+    }
   }
 
   @Test
@@ -51,6 +103,9 @@ public class DatabaseTest {
             () -> assertEquals("Kubát", student.getPrijmeni())
     );
 
+    /**
+     * Z databáze vytáhnu rodiče studenta číslo jedna a zjistím, jestli mám 2 rodiče.
+     */
     assertEquals(2, student.getRodice().size());
     for (Rodic rodic : student.getRodice()) {
       logger.debug("Rodič: {}", rodic);
@@ -84,6 +139,8 @@ public class DatabaseTest {
 
     Trida trida = ucitel.getTrida();
     logger.debug("Je třídní ve třídě: {}", trida);
+    assertNotNull(trida);
+    assertEquals("1.A", trida.getNazev());
   }
 
   @Test

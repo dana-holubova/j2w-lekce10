@@ -11,6 +11,7 @@ import javax.persistence.OrderBy;
 import java.util.List;
 
 /**
+ * Entita s údaji o jedné třídě (skupině žáků).
  */
 @Entity
 public class Trida {
@@ -24,6 +25,11 @@ public class Trida {
   @JoinColumn(name = "tridni_ucitel_id")
   private Ucitel tridniUcitel;
 
+  /**
+   * Jedna třída má víc studentů, proto je zde anotace @OneToMany a musí tam být list studentů (tj. List<Student> studenti)
+   * Atribut mappedBy odkazuje na property v protistraně (tj. property v entitě Student).
+   * Anotace @OrderBy říká, jakým způsobem chci seřadit studenty, když je budu dostávat do seznamu List<Student> studenti
+   */
   @OneToMany(mappedBy = "trida")
   @OrderBy(value="prijmeni, jmeno")
   private List<Student> studenti;

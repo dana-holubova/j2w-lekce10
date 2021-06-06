@@ -23,20 +23,40 @@ public class Student {
   @Column(nullable = false, length = 100)
   private String prijmeni;
 
+  /**
+   * TODO: Zjistit, proč je zde field rodneCislo, když tento sloupec chybí v tabulce. Je to proto, že složka data je navíc
+   * a mimo složku src -> main.
+   */
   @NotNull
   @Column(nullable = false, length = 10)
   private String rodneCislo;
 
+  /**
+   * Anotace @JoinColumn může teoreticky chybět. Název sloupce se odvodí automaticky sám, tj. vezme jméno property
+   * a připojí podtržídko a id, např. trida_id
+   * Na straně, kde mám sloupeček s id (tj. v tabulce student je sloupec třida_id), je vazba nakonfigorovaná.
+   * Na druhé straně, tj. v entitě trida, je jen pomocí mappedBy řečeno, na kterou vazbu v protitabulce se to váže.
+   */
   @NotNull
   @ManyToOne(optional = false)
   @JoinColumn(name = "trida_id")
   private Trida trida;
 
+  /**
+   * Vazební tabulka, tj. STUDENT_RODIC nemá samostatnou entitu, ale nastaví se to pomocí anotací
+   * Anotace @JoinTable říká v atribut name, která je ta vazební tabulka. Popisuje vazbu z mé strany, tj. ze strany
+   * entity Student
+   * atribut joinColumns a inverseJoinColumns říká, jak jsou pojmenované sloupečky ve vazební tabulce
+   * JoinColumns - sloupeček který odkazuje na aktuální entitu, tj. na entitu Student
+   * inverseJoinColumns - sloupeček, který odkazuje na protistranu, tj. na entitu Rodic
+   * @OrderBy - list rodice chci seřadit podle příjmení a jména
+   */
   @NotEmpty
   @ManyToMany
   @OrderBy("prijmeni, krestniJmeno")
   @JoinTable(
-          name = "rodice_deti",
+          //name = "rodice_deti",
+          name = "student_rodic",
           joinColumns = @JoinColumn(name = "student_id"),
           inverseJoinColumns = @JoinColumn(name = "rodic_id"))
   private List<Rodic> rodice;

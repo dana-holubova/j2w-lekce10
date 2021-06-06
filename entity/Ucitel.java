@@ -28,8 +28,14 @@ public class Ucitel {
  @Column(nullable = false, length = 100)
  private String prijmeni;
 
+ /**
+  * protistrana, jako field
+  * parametr optional = true znamená, že vazba je nepovinná (tj. učitel nemusí mít žádnou třídu
+  * parametr optional = false znanemá, že vazba je povinná
+  * v anotaci @OneToOne řeknu, která property ve druhé třídě vyjadřuje vazbu
+  */
  @Nullable
- @OneToOne(optional = true)
+ @OneToOne(mappedBy = "tridniUcitel" optional = true)
  @JoinColumn(unique = true)
  private Trida trida;
 

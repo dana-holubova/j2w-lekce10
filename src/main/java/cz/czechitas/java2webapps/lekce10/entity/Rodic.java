@@ -10,10 +10,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import java.util.List;
 import java.util.Set;
-
 /**
- *
+ * Entita s údaji o rodiči.
  */
+
 @Entity
 public class Rodic {
   @Id
@@ -25,6 +25,17 @@ public class Rodic {
   private String email;
   private String telefon;
 
+  /**
+   * Jeden rodič může mít ve škole víc studentů a současně může mít jeden student víc rodičů, proto je to list,
+   * tj. List<Student> deti.
+   * Vazební tabulka, tj. STUDENT_RODIC nemá samostatnou entitu, ale nastaví se to pomocí anotací.
+   * Anotace @JoinTable říká v atribut name, která je ta vazební tabulka. Popisuje vazbu z mé strany, tj. ze strany
+   * entity Rodic
+   * Atributy joinColumns a inverseJoinColumns říkají, jak jsou pojmenované sloupečky ve vazební tabulce.
+   * JoinColumns - sloupeček který odkazuje na aktuální entitu, tj. na entitu Rodic.
+   * inverseJoinColumns - sloupeček, který odkazuje na protistranu, tj. na entitu Student.
+   * @OrderBy - list deti chci seřadit podle příjmení a jména
+   */
   @ManyToMany
   @JoinTable(
           name = "student_rodic",

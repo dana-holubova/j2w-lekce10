@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam tříd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+<h1>Seznam tříd</h1>
+<div class="post" th:each="post : ${posts}">
+    <h2 th:utext="${post.title}">titulek</h2>
+    <p th:utext="${post.perex}">první odstavec</p>
+    <span th:utext="${#temporals.format(post.published, 'd. MMMM yyyy')}">2021</span>
+    <span th:utext="${post.author}">autor</span>
+    <a th:href="@{/post/{slug}(slug=${post.slug})}">Přečíst...</a>
+
+</div>
+
+<div class="pager">
+    <div class="button" th:if="${posts.hasPrevious()}"><a
+            th:href="@{${currentURL}(size=${posts.size}, page=${posts.getNumber()}-1)}">Předchozí</a></div>
+    <div class="button" th:if="${posts.hasNext()}"><a
+            th:href="@{${currentURL}(size=${posts.size}, page=${posts.getNumber()}+1)}">Další</a></div>
+</div>
+
+</body>
+</html>
