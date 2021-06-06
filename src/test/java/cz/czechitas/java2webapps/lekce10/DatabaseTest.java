@@ -178,4 +178,27 @@ public class DatabaseTest {
     }
     assertEquals(2, deti.size());
   }
+
+  @Test
+  @Transactional
+  void testTridaDetail() {
+    Trida trida = tridaRepository.getOne((short) 1);
+//    Trida trida = tridaRepository.vratDetailTridy((short) 1);
+    logger.debug("Třída s ID=: {}", trida);
+    assertEquals("1.A", trida.getNazev());
+
+    Ucitel tridniUcitel = trida.getTridniUcitel();
+    logger.debug("Třídní učitel: {}", tridniUcitel);
+    assertAll(
+            () -> assertEquals(1, tridniUcitel.getId()),
+            () -> assertEquals("Michaela", tridniUcitel.getJmeno()),
+            () -> assertEquals("Urbanová", tridniUcitel.getPrijmeni())
+    );
+
+    List<Student> studenti = trida.getStudenti();
+    for (Student student : studenti) {
+      logger.debug("Student: {}", student);
+    }
+    assertEquals(10, studenti.size());
+  }
 }

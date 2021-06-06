@@ -2,7 +2,7 @@
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Seznam tříd</title>
+    <title>Detail třídy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -10,18 +10,23 @@
     <link rel="icon" type="image/png" href="/images/favicon.png">
 </head>
 <body>
-<h1>Seznam tříd</h1>
+<h1>Detail třídy</h1>
+<div>Název: <span th:text="${trida.nazev}">1. A</span></div>
+<div>Třídní učitel: <span th:text="${trida.tridniUcitel.celeJmeno}">Michaela Urbanová</span></div>
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Třída</th>
+        <th scope="col">Žáci</th>
     </tr>
     </thead>
-    <tbody th:each="trida : ${tridy}">
+    <tbody th:each="student : ${trida.studenti}">
     <tr>
-        <td><a href="/trida-detail" th:href="@{/trida-detail/{id}(id=${trida.id})}" th:text="${trida.nazev}">1.C</a></td>
+        <td><a th:text="${student.celeJmeno}" href="/student-detail" th:href="@{/student-detail/{id}(id=${student.id})}">
+            Jan Novák</a></td>
     </tr>
     </tbody>
 </table>
+
+<a th:href="@{/}">Zpět na seznam tříd</a>
 </body>
 </html>

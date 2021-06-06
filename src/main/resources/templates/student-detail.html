@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail studenta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+<h1>Detail studenta</h1>
+<div>Jméno: <span th:text="${student.celeJmeno}">Jan Novák</span></div>
+<div>Třída: <a th:text="${student.trida.nazev}" th:href="@{/trida-detail/{id}(id=${student.trida.id})}">1. A</a></div>
+<div>Rodiče: </div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Jméno</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telefon</th>
+    </tr>
+    </thead>
+    <tbody th:each="rodic : ${student.rodice}">
+    <tr>
+        <td th:text="${rodic.celeJmeno}">Karel Novák</td>
+        <td><span th:if="${rodic.email} != null" th:text="${rodic.email}">123@email.cz</span><em th:if="${rodic.email}
+        == null">neuveden</em></td>
+        <td><span th:if="${rodic.telefon} != null" th:text="${rodic.telefon}">+420 123 125 457</span><em
+                th:if="${rodic.telefon} == null">neuveden</em></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Zpět na seznam tříd</a>
+</body>
+</html>

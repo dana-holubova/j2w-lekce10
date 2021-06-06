@@ -1,5 +1,7 @@
 package cz.czechitas.java2webapps.lekce10.entity;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Rodic {
   private String jmeno;
   private String prijmeni;
   private String email;
+
   private String telefon;
 
   /**
@@ -92,6 +95,8 @@ public class Rodic {
   public void setDeti(List<Student> deti) {
     this.deti = deti;
   }
+
+  public String getCeleJmeno() {return jmeno + " " + prijmeni;}
 
   @Override
   public String toString() {

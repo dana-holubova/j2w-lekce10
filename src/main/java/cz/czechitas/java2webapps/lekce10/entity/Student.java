@@ -82,6 +82,8 @@ public class Student {
     this.rodice = rodice;
   }
 
+  public String getCeleJmeno() {return jmeno + " " + prijmeni; }
+
   @Override
   public String toString() {
     return String.format("%s %s [%d]", jmeno, prijmeni, id);

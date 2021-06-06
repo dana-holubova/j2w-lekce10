@@ -19,6 +19,9 @@ public class Trida {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Short id;
 
+  /**
+   * TODO: Nejde řazení udělat pomocí anotace @OrderBy? Proč mi nefunguje? @OrderBy(value="nazev")
+   */
   private String nazev;
 
   @OneToOne(optional = false)
@@ -29,6 +32,7 @@ public class Trida {
    * Jedna třída má víc studentů, proto je zde anotace @OneToMany a musí tam být list studentů (tj. List<Student> studenti)
    * Atribut mappedBy odkazuje na property v protistraně (tj. property v entitě Student).
    * Anotace @OrderBy říká, jakým způsobem chci seřadit studenty, když je budu dostávat do seznamu List<Student> studenti
+   * TODO: Dá se anotace @OrderBy použít i na jiné sloupce? Např. na nazev?
    */
   @OneToMany(mappedBy = "trida")
   @OrderBy(value="prijmeni, jmeno")
