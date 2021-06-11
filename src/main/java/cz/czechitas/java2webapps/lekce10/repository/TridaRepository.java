@@ -11,9 +11,9 @@ import java.util.List;
 public interface TridaRepository extends JpaRepository<Trida, Short> {
 
     /**
-     * TODO: Proč nefunguje List<Trida> findAllOrderByNazevAsc(); ?
-     * Metoda vracející seznam tříd seřazený podle názvu
+     * Druhá varianta pro vracení seznamu tříd
      */
+//    List<Trida> findByOrderByNazevAsc();
 
     @Query("SELECT t FROM Trida t ORDER BY t.nazev ASC")
     List<Trida> vratSeznamTrid();

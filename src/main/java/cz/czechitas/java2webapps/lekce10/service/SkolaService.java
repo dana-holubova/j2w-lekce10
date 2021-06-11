@@ -32,6 +32,13 @@ public class SkolaService {
         return tridaRepository.vratSeznamTrid();
     }
 
+    /**
+     * Druhá varianta pro vracení seznamu tříd
+     */
+//    public List<Trida> vratSeznamTrid() {
+//        return tridaRepository.findByOrderByNazevAsc();
+//    }
+
     public Trida vratDetailTridy(Short id) {
         return tridaRepository.getOne(id);
     }
