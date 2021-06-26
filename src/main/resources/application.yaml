@@ -4,3 +4,5 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: ''
+  flyway:
+    locations: classpath:db/migration/{vendor}, classpath:db/migration/common
